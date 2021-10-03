@@ -6,7 +6,7 @@
              x:Name="MyListPage"
              x:Class="Xam_PushNotification.View.cpKaryawan">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="ADD" Command="{Binding NewPageCommand}"/>
+        <ToolbarItem Text="ADD" Command="{Binding MoveToInsertPageCommand}"/>
         <ToolbarItem Text="LOG OUT" Command="{Binding LogoutCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>

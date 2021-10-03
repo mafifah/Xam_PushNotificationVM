@@ -29,7 +29,7 @@ namespace Xam_PushNotification.Service
             HttpClient client = new HttpClient(clientHandler);
             client.BaseAddress = new Uri("https://newfcsignalr.azurewebsites.net/chatHub");
             hubConnection = new HubConnectionBuilder().WithUrl(client.BaseAddress)
-            .WithAutomaticReconnect().Build();
+            .Build();
         }
         public async Task Connect()
         {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xam_PushNotification.Model;
 using Xam_PushNotification.Service;
@@ -19,14 +20,14 @@ namespace Xam_PushNotification.ViewModel
 
         private ObservableCollection<DataKaryawan> _listKaryawan = new ObservableCollection<DataKaryawan>();
         public ObservableCollection<DataKaryawan> ListKaryawan { get => _listKaryawan; set => SetProperty(ref _listKaryawan, value); }
-        
+
         private string _namaLengkap;
         public string NamaLengkap { get => _namaLengkap; set => SetProperty(ref _namaLengkap, value); }
-        
+
         private string _title;
         public string Title { get => _title; set => SetProperty(ref _title, value); }
 
-        public ICommand NewPageCommand { get; }
+        public ICommand MoveToInsertPageCommand { get; }
         public ICommand SelectedCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand LogoutCommand { get; }
@@ -44,16 +45,31 @@ namespace Xam_PushNotification.ViewModel
             localNotificationsService = DependencyService.Get<ILocalNotificationsService>();
             Title = $"Login Sebagai: {Preferences.Get("divisi", null)}";
             ListKaryawan = karyawanService.ListKaryawan;
-            NewPageCommand = new Command(MoveToInsertPage);
+            MoveToInsertPageCommand = new Command(MoveToInsertPage);
             SaveCommand = new Command(SaveKaryawan);
             SelectedCommand = new Command(SetKaryawanSelected);
             LogoutCommand = new Command(OnLogout);
             Status = signalRService.Status;
             ConnectSignalR();
+            Connectivity.ConnectivityChanged += Connectivity_Changed;
+        }
+        async void Connectivity_Changed(object sender, ConnectivityChangedEventArgs e)
+        {
+            if (e.NetworkAccess != NetworkAccess.Internet)
+            {
+                await Application.Current.MainPage.DisplayAlert("Warning", "Koneksi anda tidak stabil, anda mungkin tidak dapat menerima notifikasi dan pembaruan data. Mohon periksa kembali koneksi internet anda.", "OK");
+            }
+            else if (e.NetworkAccess == NetworkAccess.Internet)
+            {
+                //signalRService = DependencyService.Get<ISignalRService>();
+                //await signalRService.Disconnect();
+                await signalRService.Connect();
+            }
+
         }
 
         //Method untuk memulai koneksi ke SignalR Server
-        protected async void ConnectSignalR()
+        protected async Task ConnectSignalR()
         {
             signalRService.ReceiveMessage(OnDataBerubah);
             if (Status != "Connected")
@@ -68,7 +84,7 @@ namespace Xam_PushNotification.ViewModel
                 }
             }
         }
-        
+
         //Method untuk menangani perubahan data
         private async void OnDataBerubah(ClientMessage clientMessage)
         {
