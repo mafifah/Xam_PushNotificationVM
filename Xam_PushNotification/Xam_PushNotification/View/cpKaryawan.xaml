@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Xam_PushNotification.ViewModel"
+             Title="{Binding Title}"
+             x:Name="MyListPage"
+             x:Class="Xam_PushNotification.View.cpKaryawan">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="ADD" Command="{Binding NewPageCommand}"/>
+        <ToolbarItem Text="LOG OUT" Command="{Binding LogoutCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.BindingContext>
+        <vm:vmKaryawan/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding ListKaryawan}"
+                      HasUnevenRows="True"
+                       Margin="0,10,0,0">
+                <ListView.Header>
+                    <Grid BackgroundColor="Transparent" Padding="10" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Nama" HorizontalOptions="Fill"  Grid.Column="0"   FontSize="Small" FontAttributes="Bold"  TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Opsi" HorizontalOptions="Fill"  Grid.Column="1"  FontSize="Small" FontAttributes="Bold"  TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Frame Padding="5" Margin="10,10,10,10" HasShadow="True" BorderColor="WhiteSmoke" CornerRadius="15">
+                                    <Grid BackgroundColor="Transparent" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Label VerticalOptions="CenterAndExpand" Grid.Column="0" Text ="{Binding Nama}"  HorizontalTextAlignment="Start" Margin="3"></Label>
+                                        <Button 
+                                                CornerRadius="10"
+                                                Grid.Column="1"
+                                                FontSize="Small" 
+                                                Command="{Binding Source={x:Reference MyListPage}, Path=BindingContext.SelectedCommand}" 
+                                                BackgroundColor="Transparent"
+                                                Text="Pilih"
+                                                TextColor="Black"
+                                                ImageSource="Modify" 
+                                                CommandParameter="{Binding .}"
+                                                VerticalOptions="CenterAndExpand">
+                                        </Button>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

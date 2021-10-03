@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "gRPCServer";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service Karyawan
+{
+	rpc GetKaryawan(Empty) returns (stream T1Karyawan);
+	rpc GetKaryawanById (T1KaryawanRequest) returns (stream T1Karyawan);
+	rpc InsertKaryawan(T1Karyawan) returns (Reply);
+	rpc UpdateKaryawan(T1Karyawan) returns(Reply);
+	rpc DeleteKaryawan(T1KaryawanRequest) returns (Reply);
+}
+
+message Empty{
+
+}
+
+message T1KaryawanRequest{
+	int64 IdKaryawan =1;
+}
+
+message T1Karyawan
+{
+	int64 IdKaryawan = 1;
+	string NamaLengkap =2;
+}
+
+message Reply
+{
+	string result=1;
+}

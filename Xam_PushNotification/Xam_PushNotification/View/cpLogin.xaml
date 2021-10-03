@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Xam_PushNotification.ViewModel"
+             x:Class="Xam_PushNotification.View.cpLogin">
+    <ContentPage.BindingContext>
+        <vm:vmLogin/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry Text="{Binding Divisi}" Placeholder="Divisi"/>
+            <Button Text="Login" Command="{Binding LoginCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

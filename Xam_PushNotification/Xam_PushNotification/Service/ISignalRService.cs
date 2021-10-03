@@ -1,0 +1,15 @@
+﻿using System;
+using System.Threading.Tasks;
+using Xam_PushNotification.Model;
+
+namespace Xam_PushNotification.Service
+{
+    public interface ISignalRService
+    {
+        public string Status { get; }
+        Task Connect();
+        Task Disconnect();
+        void ReceiveMessage(Action<ClientMessage> GetMessage, bool isBroadcast = false);
+        Task SendMessage(ClientMessage clientMessage, bool isBroadcast);
+    }
+}

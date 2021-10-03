@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam_PushNotification.Android", "Xam_PushNotification\Xam_PushNotification.Android\Xam_PushNotification.Android.csproj", "{A67D990D-A2AC-4F2E-B56E-51597A24660B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xam_PushNotification", "Xam_PushNotification\Xam_PushNotification\Xam_PushNotification.csproj", "{04126000-F185-4C70-B464-3885FC1E432E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A67D990D-A2AC-4F2E-B56E-51597A24660B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A67D990D-A2AC-4F2E-B56E-51597A24660B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A67D990D-A2AC-4F2E-B56E-51597A24660B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A67D990D-A2AC-4F2E-B56E-51597A24660B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A67D990D-A2AC-4F2E-B56E-51597A24660B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A67D990D-A2AC-4F2E-B56E-51597A24660B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{04126000-F185-4C70-B464-3885FC1E432E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04126000-F185-4C70-B464-3885FC1E432E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04126000-F185-4C70-B464-3885FC1E432E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{04126000-F185-4C70-B464-3885FC1E432E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04126000-F185-4C70-B464-3885FC1E432E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04126000-F185-4C70-B464-3885FC1E432E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5DE5B62-E4CB-40B2-BB81-ACB9A4D99970}
+	EndGlobalSection
+EndGlobal
