@@ -61,8 +61,6 @@ namespace Xam_PushNotification.ViewModel
             }
             else if (e.NetworkAccess == NetworkAccess.Internet)
             {
-                //signalRService = DependencyService.Get<ISignalRService>();
-                //await signalRService.Disconnect();
                 await signalRService.Connect();
             }
 
@@ -110,19 +108,6 @@ namespace Xam_PushNotification.ViewModel
             localNotificationsService.ShowNotification("Data Karyawan", clientMessage.Message);
         }
 
-        //Send Message ke SignalR Server
-        private void SendMessage(string method, long id)
-        {
-            var msg = $"{_app}_{title} {method}";
-            var message = new ClientMessage
-            {
-                Message = msg,
-                Method = method,
-                Divisi = Preferences.Get("divisi", null),
-                IdKaryawan = id
-            };
-            signalRService.SendMessage(message, false);
-        }
 
         private void MoveToInsertPage()
         {
@@ -134,7 +119,7 @@ namespace Xam_PushNotification.ViewModel
             var rnd = new Random();
             long id = rnd.Next(1, 10000);
             var output = karyawanService.InsertKaryawan(id, _namaLengkap);
-            SendMessage("insert", id);
+            signalRService.SendMessage(title, "insert", false, id);
             Application.Current.MainPage.Navigation.PopAsync();
         }
 

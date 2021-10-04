@@ -34,22 +34,10 @@ namespace Xam_PushNotification.ViewModel
             DeleteCommand = new Command(DeleteKaryawan);
         }
 
-        private void SendMessage(string method, long id)
-        {
-            var msg = $"{_app}_{title} {method}";
-            var message = new ClientMessage
-            {
-                Message = msg,
-                Method = method,
-                Divisi = Preferences.Get("divisi", null),
-                IdKaryawan = id
-            };
-            signalRService.SendMessage(message, false);
-        }
         private void DeleteKaryawan()
         {
             detailKaryawanService.DeleteKaryawan(_karyawanSelected);
-            SendMessage("delete", _karyawanSelected.IdKaryawan);
+            signalRService.SendMessage(title, "delete", false, KaryawanSelected.IdKaryawan);
             karyawanService.ListKaryawan.Remove(_karyawanSelected);
             Application.Current.MainPage.Navigation.PopAsync();
         }
@@ -57,7 +45,7 @@ namespace Xam_PushNotification.ViewModel
         private void UpdateKaryawan()
         {
             detailKaryawanService.UpdateKaryawan(_karyawanSelected);
-            SendMessage("update", _karyawanSelected.IdKaryawan);
+            signalRService.SendMessage(title, "update", false, KaryawanSelected.IdKaryawan);
             Application.Current.MainPage.Navigation.PopAsync();
         }
     }
