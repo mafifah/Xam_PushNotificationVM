@@ -61,7 +61,7 @@ namespace Xam_PushNotification.ViewModel
             }
             else if (e.NetworkAccess == NetworkAccess.Internet)
             {
-                await signalRService.Connect();
+                await ConnectSignalR();
             }
 
         }
