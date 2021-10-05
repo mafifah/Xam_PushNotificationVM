@@ -33,14 +33,13 @@ namespace Xam_PushNotification.ViewModel
             KaryawanSelected = detailKaryawanService.KaryawanSelected;
             UpdateCommand = new Command(UpdateKaryawan);
             DeleteCommand = new Command(DeleteKaryawan);
-            ConnectSignalR();
         }
 
-        protected async Task ConnectSignalR()
+        public async Task ConnectSignalR()
         {
             try
             {
-                signalRService.ReceiveMessage(null);
+                signalRService.ReceiveMessage();
                 await signalRService.Connect();
             }
             catch (Exception e)

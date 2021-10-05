@@ -33,6 +33,10 @@ namespace Xam_PushNotification.Service
         }
         public async Task Connect()
         {
+            if (hubConnection.ConnectionId != null)
+            {
+                await Disconnect();
+            }
             await hubConnection.StartAsync();
             _status = hubConnection.State.ToString();
             await hubConnection.InvokeAsync("OnConnect", Preferences.Get("divisi", null)); 
@@ -42,7 +46,7 @@ namespace Xam_PushNotification.Service
         {
             try
             {
-                await hubConnection.InvokeAsync("OnDisconnect", Preferences.Get("divisi", null));
+                //await hubConnection.InvokeAsync("OnDisconnect", Preferences.Get("divisi", null));
                 await hubConnection.StopAsync();
                 _status = hubConnection.State.ToString();
             }
@@ -52,7 +56,7 @@ namespace Xam_PushNotification.Service
             }
             finally
             {
-                await hubConnection.DisposeAsync();
+                //await hubConnection.DisposeAsync();
             }
             
         }
@@ -77,7 +81,7 @@ namespace Xam_PushNotification.Service
             }
         }
 
-        public void ReceiveMessage(Action<ClientMessage> GetMessage, bool isBroadcast = false)
+        public void ReceiveMessage(Action<ClientMessage> GetMessage = null, bool isBroadcast = false)
         {
             if (isBroadcast)
             {

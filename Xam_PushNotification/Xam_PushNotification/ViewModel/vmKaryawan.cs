@@ -19,15 +19,13 @@ namespace Xam_PushNotification.ViewModel
         private ObservableCollection<DataKaryawan> _listKaryawan = new ObservableCollection<DataKaryawan>();
         public ObservableCollection<DataKaryawan> ListKaryawan { get => _listKaryawan; set => SetProperty(ref _listKaryawan, value); }
 
-        private string _namaLengkap;
-        public string NamaLengkap { get => _namaLengkap; set => SetProperty(ref _namaLengkap, value); }
-
+        
         private string _title;
         public string Title { get => _title; set => SetProperty(ref _title, value); }
 
         public ICommand MoveToInsertPageCommand { get; }
         public ICommand SelectedCommand { get; }
-        public ICommand SaveCommand { get; }
+        
         public ICommand LogoutCommand { get; }
 
         IKaryawanService karyawanService;
@@ -44,7 +42,6 @@ namespace Xam_PushNotification.ViewModel
             Title = $"Login Sebagai: {Preferences.Get("divisi", null)}";
             ListKaryawan = karyawanService.ListKaryawan;
             MoveToInsertPageCommand = new Command(MoveToInsertPage);
-            SaveCommand = new Command(SaveKaryawan);
             SelectedCommand = new Command(SetKaryawanSelected);
             LogoutCommand = new Command(OnLogout);
             Connectivity.ConnectivityChanged += Connectivity_Changed;
@@ -66,17 +63,14 @@ namespace Xam_PushNotification.ViewModel
         //Method untuk memulai koneksi ke SignalR Server
         public async Task ConnectSignalR()
         {
-            signalRService.ReceiveMessage(OnDataBerubah);
-            if(signalRService.Status != "Connected")
+            try
             {
-                try
-                {
-                    await signalRService.Connect();
-                }
-                catch (Exception e)
-                {
-                    var msg = e.Message;
-                }
+                signalRService.ReceiveMessage(OnDataBerubah);
+                await signalRService.Connect();
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
             }
         }
 
@@ -105,20 +99,13 @@ namespace Xam_PushNotification.ViewModel
             localNotificationsService.ShowNotification("Data Karyawan", clientMessage.Message);
         }
 
-        private void MoveToInsertPage()
+        private async void MoveToInsertPage()
         {
-            Application.Current.MainPage.Navigation.PushAsync(new cpInsertKaryawan());
+            await signalRService.Disconnect();
+            await Application.Current.MainPage.Navigation.PushAsync(new cpInsertKaryawan());
         }
 
-        private void SaveKaryawan()
-        {
-            var rnd = new Random();
-            long id = rnd.Next(1, 10000);
-            var output = karyawanService.InsertKaryawan(id, _namaLengkap);
-            signalRService.SendMessage(title, "insert", false, id);
-            Application.Current.MainPage.Navigation.PopAsync();
-        }
-
+        
         private async void SetKaryawanSelected(object obj)
         {
             await signalRService.Disconnect();

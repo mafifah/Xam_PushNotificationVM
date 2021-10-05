@@ -4,13 +4,11 @@
              xmlns:vm="clr-namespace:Xam_PushNotification.ViewModel"
              x:Class="Xam_PushNotification.View.cpInsertKaryawan">
     <ContentPage.BindingContext>
-        <vm:vmKaryawan/>
+        <vm:vmNewKaryawan/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-
             <Entry Text="{Binding NamaLengkap}" Placeholder="Isi Nama Lengkap"/>
-
             <Button Text="Save" Command="{Binding SaveCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
