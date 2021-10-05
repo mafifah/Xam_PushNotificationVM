@@ -13,10 +13,10 @@ namespace Xam_PushNotification.View
             InitializeComponent();
         }
 
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-            await vmKaryawanDetil.ConnectSignalR();
-        }
+        //protected async override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    await vmKaryawanDetil.ConnectSignalR();
+        //}
     }
 }

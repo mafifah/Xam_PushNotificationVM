@@ -50,6 +50,7 @@ namespace Xam_PushNotification.ViewModel
 
         private async void DeleteKaryawan()
         {
+            await ConnectSignalR();
             await detailKaryawanService.DeleteKaryawan(_karyawanSelected);
             await signalRService.SendMessage(title, "delete", false, KaryawanSelected.IdKaryawan);
             karyawanService.ListKaryawan.Remove(_karyawanSelected);
@@ -59,6 +60,7 @@ namespace Xam_PushNotification.ViewModel
 
         private async void UpdateKaryawan()
         {
+            await ConnectSignalR();
             await detailKaryawanService.UpdateKaryawan(_karyawanSelected);
             await signalRService.SendMessage(title, "update", false, KaryawanSelected.IdKaryawan);
             await signalRService.Disconnect();

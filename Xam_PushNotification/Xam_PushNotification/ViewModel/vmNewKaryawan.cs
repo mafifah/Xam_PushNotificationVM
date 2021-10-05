@@ -40,6 +40,7 @@ namespace Xam_PushNotification.ViewModel
 
         private async void SaveKaryawan()
         {
+            await ConnectSignalR();
             var rnd = new Random();
             long id = rnd.Next(1, 10000);
             var output = karyawanService.InsertKaryawan(id, _namaLengkap);
