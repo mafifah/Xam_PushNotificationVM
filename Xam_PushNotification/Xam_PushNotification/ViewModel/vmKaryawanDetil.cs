@@ -1,7 +1,10 @@
 ﻿using MvvmHelpers;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xam_PushNotification.Model;
 using Xam_PushNotification.Service;
+using Xam_PushNotification.View;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -10,8 +13,6 @@ namespace Xam_PushNotification.ViewModel
     public class vmKaryawanDetil : ObservableObject
     {
         private string title = "Data Karyawan";
-        private string _app = "xam";
-        private string Status = "";
 
         private DataKaryawan _karyawanSelected;
         public DataKaryawan KaryawanSelected { get => _karyawanSelected; set => SetProperty(ref _karyawanSelected, value); }
@@ -32,21 +33,37 @@ namespace Xam_PushNotification.ViewModel
             KaryawanSelected = detailKaryawanService.KaryawanSelected;
             UpdateCommand = new Command(UpdateKaryawan);
             DeleteCommand = new Command(DeleteKaryawan);
+            ConnectSignalR();
         }
 
-        private void DeleteKaryawan()
+        protected async Task ConnectSignalR()
         {
-            detailKaryawanService.DeleteKaryawan(_karyawanSelected);
-            signalRService.SendMessage(title, "delete", false, KaryawanSelected.IdKaryawan);
+            try
+            {
+                signalRService.ReceiveMessage(null);
+                await signalRService.Connect();
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+            }
+        }
+
+        private async void DeleteKaryawan()
+        {
+            await detailKaryawanService.DeleteKaryawan(_karyawanSelected);
+            await signalRService.SendMessage(title, "delete", false, KaryawanSelected.IdKaryawan);
             karyawanService.ListKaryawan.Remove(_karyawanSelected);
-            Application.Current.MainPage.Navigation.PopAsync();
+            await signalRService.Disconnect();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void UpdateKaryawan()
+        private async void UpdateKaryawan()
         {
-            detailKaryawanService.UpdateKaryawan(_karyawanSelected);
-            signalRService.SendMessage(title, "update", false, KaryawanSelected.IdKaryawan);
-            Application.Current.MainPage.Navigation.PopAsync();
+            await detailKaryawanService.UpdateKaryawan(_karyawanSelected);
+            await signalRService.SendMessage(title, "update", false, KaryawanSelected.IdKaryawan);
+            await signalRService.Disconnect();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
     }
 }

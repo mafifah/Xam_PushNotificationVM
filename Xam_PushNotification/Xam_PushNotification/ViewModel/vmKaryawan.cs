@@ -15,8 +15,6 @@ namespace Xam_PushNotification.ViewModel
     public class vmKaryawan : ObservableObject
     {
         private string title = "Data Karyawan";
-        private string _app = "Xam";
-        private string Status = "";
 
         private ObservableCollection<DataKaryawan> _listKaryawan = new ObservableCollection<DataKaryawan>();
         public ObservableCollection<DataKaryawan> ListKaryawan { get => _listKaryawan; set => SetProperty(ref _listKaryawan, value); }
@@ -49,8 +47,6 @@ namespace Xam_PushNotification.ViewModel
             SaveCommand = new Command(SaveKaryawan);
             SelectedCommand = new Command(SetKaryawanSelected);
             LogoutCommand = new Command(OnLogout);
-            Status = signalRService.Status;
-            ConnectSignalR();
             Connectivity.ConnectivityChanged += Connectivity_Changed;
         }
         async void Connectivity_Changed(object sender, ConnectivityChangedEventArgs e)
@@ -66,11 +62,12 @@ namespace Xam_PushNotification.ViewModel
 
         }
 
+        
         //Method untuk memulai koneksi ke SignalR Server
-        protected async Task ConnectSignalR()
+        public async Task ConnectSignalR()
         {
             signalRService.ReceiveMessage(OnDataBerubah);
-            if (Status != "Connected")
+            if(signalRService.Status != "Connected")
             {
                 try
                 {
@@ -108,7 +105,6 @@ namespace Xam_PushNotification.ViewModel
             localNotificationsService.ShowNotification("Data Karyawan", clientMessage.Message);
         }
 
-
         private void MoveToInsertPage()
         {
             Application.Current.MainPage.Navigation.PushAsync(new cpInsertKaryawan());
@@ -123,11 +119,12 @@ namespace Xam_PushNotification.ViewModel
             Application.Current.MainPage.Navigation.PopAsync();
         }
 
-        private void SetKaryawanSelected(object obj)
+        private async void SetKaryawanSelected(object obj)
         {
+            await signalRService.Disconnect();
             var data = obj as DataKaryawan;
             detailKaryawanService.SetKaryawanSelected(data);
-            Application.Current.MainPage.Navigation.PushAsync(new cpDetilKaryawan());
+            await Application.Current.MainPage.Navigation.PushAsync(new cpDetilKaryawan());
         }
 
         private async void OnLogout(object obj)
