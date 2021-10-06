@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xam_PushNotification.Model;
 using Xam_PushNotification.Service;
-using Xam_PushNotification.View;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Xam_PushNotification.ViewModel
