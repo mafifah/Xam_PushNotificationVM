@@ -96,7 +96,7 @@ namespace Xam_PushNotification.ViewModel
                 karyawanService.ListKaryawan.Remove(item);
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
-            localNotificationsService.ShowNotification("Data Karyawan", clientMessage.Message);
+            localNotificationsService.ShowNotification(title, clientMessage.Message);
         }
 
         private async void MoveToInsertPage()
