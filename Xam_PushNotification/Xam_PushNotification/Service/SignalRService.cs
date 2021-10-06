@@ -55,7 +55,7 @@ namespace Xam_PushNotification.Service
             }
         }
 
-        public async Task SendMessage(string title, string method, string namaHalaman, bool isBroadcast, long id = 0)
+        public async Task SendMessage(string title, string method, string namaHalaman, bool isBroadcast, object id = null)
         {
             var msg = $"xam_{title} {method}";
             var message = new ClientMessage

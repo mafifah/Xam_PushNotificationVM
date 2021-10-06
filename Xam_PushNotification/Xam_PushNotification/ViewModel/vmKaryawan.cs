@@ -80,7 +80,8 @@ namespace Xam_PushNotification.ViewModel
         {
             if (clientMessage.JenisPesan == "insert" || clientMessage.JenisPesan == "update")
             {
-                var data = await karyawanService.GetKaryawanById((long)clientMessage.Id_PrimaryKey);
+                var ConvertedId = Convert.ToInt64(clientMessage.Id_PrimaryKey);
+                var data = await karyawanService.GetKaryawanById(ConvertedId);
                 var data2 = karyawanService.ListKaryawan.Where(i => i.IdKaryawan == data.IdKaryawan).FirstOrDefault();
                 if (clientMessage.JenisPesan == "update")
                 {
