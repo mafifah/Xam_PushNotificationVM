@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
+using System.Collections.Generic;
 using Xam_PushNotification.Service;
 using Xamarin.Forms;
 using AndroidApp = Android.App.Application;
@@ -37,7 +38,7 @@ namespace Xam_PushNotification.Droid.Services
             notificationManager.CreateNotificationChannel(channel);
         }
 
-        public void ShowNotification(string title, string message)
+        public void ShowNotification(string title, string message, IDictionary<string, string> data)
         {
             if (!isChannelInitialized)
             {
@@ -48,6 +49,12 @@ namespace Xam_PushNotification.Droid.Services
             intent.PutExtra(TITLE_KEY, title);
             intent.PutExtra(MESSAGE_KEY, message);
             intent.AddFlags(ActivityFlags.ClearTop);
+            foreach (var key in data.Keys)
+            {
+                intent.PutExtra(key, data[key]);
+            }
+
+            notificationId++;
 
 
 

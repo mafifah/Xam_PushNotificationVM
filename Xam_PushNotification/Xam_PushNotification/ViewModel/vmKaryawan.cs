@@ -1,5 +1,6 @@
 ﻿using MvvmHelpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -96,7 +97,7 @@ namespace Xam_PushNotification.ViewModel
                 karyawanService.ListKaryawan.Remove(item);
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
-            localNotificationsService.ShowNotification(title, clientMessage.Message);
+            localNotificationsService.ShowNotification(title, clientMessage.Message, new Dictionary<string, string>());
         }
 
         private async void MoveToInsertPage()
