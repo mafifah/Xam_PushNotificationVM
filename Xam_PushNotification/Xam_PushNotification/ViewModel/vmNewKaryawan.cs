@@ -44,7 +44,7 @@ namespace Xam_PushNotification.ViewModel
             var rnd = new Random();
             long id = rnd.Next(1, 10000);
             var output = karyawanService.InsertKaryawan(id, _namaLengkap);
-            await signalRService.SendMessage(title, "insert", false, id);
+            await signalRService.SendMessage(title, "insert", "cpKaryawan", false, id);
             await signalRService.Disconnect();
             await Application.Current.MainPage.Navigation.PopAsync();
         }

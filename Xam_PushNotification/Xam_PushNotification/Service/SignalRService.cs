@@ -27,7 +27,6 @@ namespace Xam_PushNotification.Service
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             HttpClient client = new HttpClient(clientHandler);
             client.BaseAddress = new Uri("https://newfcsignalr.azurewebsites.net/chatHub");
-            //client.BaseAddress = new Uri("https://signalrwithgroup.conveyor.cloud/chatHub");
             hubConnection = new HubConnectionBuilder().WithUrl(client.BaseAddress)
             .Build();
         }
@@ -39,14 +38,14 @@ namespace Xam_PushNotification.Service
             }
             await hubConnection.StartAsync();
             _status = hubConnection.State.ToString();
-            await hubConnection.InvokeAsync("OnConnect", Preferences.Get("divisi", null)); 
+            await hubConnection.InvokeAsync("MulaiKoneksi", Preferences.Get("divisi", null)); 
         }
 
         public async Task Disconnect()
         {
             try
             {
-                //await hubConnection.InvokeAsync("OnDisconnect", Preferences.Get("divisi", null));
+                await hubConnection.InvokeAsync("StopKoneksi", Preferences.Get("divisi", null));
                 await hubConnection.StopAsync();
                 _status = hubConnection.State.ToString();
             }
@@ -54,30 +53,26 @@ namespace Xam_PushNotification.Service
             {
                 var msg = e.Message;
             }
-            finally
-            {
-                //await hubConnection.DisposeAsync();
-            }
-            
         }
 
-        public async Task SendMessage(string title, string method, bool isBroadcast, long id = 0)
+        public async Task SendMessage(string title, string method, string namaHalaman, bool isBroadcast, long id = 0)
         {
             var msg = $"xam_{title} {method}";
             var message = new ClientMessage
             {
-                Message = msg,
-                Method = method,
+                IsiPesan = msg,
+                JenisPesan = method,
                 Divisi = Preferences.Get("divisi", null),
-                IdKaryawan = id
+                Id_PrimaryKey = id,
+                NamaHalaman = namaHalaman,
             };
             if (isBroadcast)
             {
-                await hubConnection.InvokeAsync("BroadcastMessage", message);
+                await hubConnection.InvokeAsync("KirimPesanBroadcast", message);
             }
             else
             {
-                await hubConnection.InvokeAsync("SendMessage", message);
+                await hubConnection.InvokeAsync("KirimPesan", message);
             }
         }
 

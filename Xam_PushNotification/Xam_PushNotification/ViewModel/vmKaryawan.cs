@@ -1,7 +1,6 @@
 ﻿using MvvmHelpers;
 using Plugin.LocalNotification;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -79,22 +78,22 @@ namespace Xam_PushNotification.ViewModel
         //Method untuk menangani perubahan data
         private async void OnDataBerubah(ClientMessage clientMessage)
         {
-            if (clientMessage.Method == "insert" || clientMessage.Method == "update")
+            if (clientMessage.JenisPesan == "insert" || clientMessage.JenisPesan == "update")
             {
-                var data = await karyawanService.GetKaryawanById(clientMessage.IdKaryawan);
+                var data = await karyawanService.GetKaryawanById((long)clientMessage.Id_PrimaryKey);
                 var data2 = karyawanService.ListKaryawan.Where(i => i.IdKaryawan == data.IdKaryawan).FirstOrDefault();
-                if (clientMessage.Method == "update")
+                if (clientMessage.JenisPesan == "update")
                 {
                     data2.Nama = data.Nama;
                 }
-                else if (clientMessage.Method == "insert" && data2 == null)
+                else if (clientMessage.JenisPesan == "insert" && data2 == null)
                 {
                     karyawanService.ListKaryawan.Add(data);
                 }
             }
-            else if (clientMessage.Method == "delete")
+            else if (clientMessage.JenisPesan == "delete")
             {
-                var item = _listKaryawan.Where(i => i.IdKaryawan == clientMessage.IdKaryawan).FirstOrDefault();
+                var item = _listKaryawan.Where(i => i.IdKaryawan == (long)clientMessage.Id_PrimaryKey).FirstOrDefault();
                 karyawanService.ListKaryawan.Remove(item);
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
@@ -104,9 +103,9 @@ namespace Xam_PushNotification.ViewModel
             {
                 
                 BadgeNumber = 1,
-                Description = clientMessage.Message,
+                Description = clientMessage.IsiPesan,
                 Title = title,
-                ReturningData = "cpInsertKaryawan",
+                ReturningData = clientMessage.NamaHalaman,
                 NotificationId = rnd.Next(1,1000)
             };
 
