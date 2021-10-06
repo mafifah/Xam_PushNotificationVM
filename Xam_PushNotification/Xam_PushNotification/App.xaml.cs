@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.LocalNotification;
+using System;
 using Xam_PushNotification.View;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -19,6 +20,19 @@ namespace Xam_PushNotification
             {
                 MainPage = new NavigationPage(new cpLogin());
             }
+            NotificationCenter.Current.NotificationTapped += Current_NotificationTapped;
+        }
+
+
+        private void Current_NotificationTapped(NotificationEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (e.Request.ReturningData == "cpInsertKaryawan")
+                {
+                    Application.Current.MainPage.Navigation.PushAsync(new cpInsertKaryawan());
+                }
+            });
         }
 
         protected override void OnStart()

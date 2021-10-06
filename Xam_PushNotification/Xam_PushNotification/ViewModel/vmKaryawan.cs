@@ -1,4 +1,5 @@
 ﻿using MvvmHelpers;
+using Plugin.LocalNotification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -97,7 +98,19 @@ namespace Xam_PushNotification.ViewModel
                 karyawanService.ListKaryawan.Remove(item);
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
-            localNotificationsService.ShowNotification(title, clientMessage.Message, new Dictionary<string, string>());
+           // localNotificationsService.ShowNotification(title, clientMessage.Message, new Dictionary<string, string>());
+            var rnd = new Random();
+            var notification = new NotificationRequest
+            {
+                
+                BadgeNumber = 1,
+                Description = clientMessage.Message,
+                Title = title,
+                ReturningData = "cpInsertKaryawan",
+                NotificationId = rnd.Next(1,1000)
+            };
+
+           await NotificationCenter.Current.Show(notification);
         }
 
         private async void MoveToInsertPage()
