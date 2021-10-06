@@ -37,7 +37,7 @@
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
-                                        <Label VerticalOptions="CenterAndExpand" Grid.Column="0" Text ="{Binding Nama}"  HorizontalTextAlignment="Start" Margin="3"></Label>
+                                        <Label VerticalOptions="CenterAndExpand" TextColor="Black" Grid.Column="0" Text ="{Binding Nama}"  HorizontalTextAlignment="Start" Margin="3"></Label>
                                         <Button 
                                                 CornerRadius="10"
                                                 Grid.Column="1"
