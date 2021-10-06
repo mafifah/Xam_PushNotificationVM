@@ -55,13 +55,13 @@ namespace Xam_PushNotification.Service
             }
         }
 
-        public async Task SendMessage(string title, string method, string namaHalaman, bool isBroadcast, object id = null)
+        public async Task SendMessage(string title, string jenisPerubahan, string namaHalaman, bool isBroadcast, object id = null)
         {
-            var msg = $"xam_{title} {method}";
+            var msg = $"xam_{title} {jenisPerubahan}";
             var message = new ClientMessage
             {
                 IsiPesan = msg,
-                JenisPesan = method,
+                JenisPesan = jenisPerubahan,
                 Divisi = Preferences.Get("divisi", null),
                 Id_PrimaryKey = id,
                 NamaHalaman = namaHalaman,

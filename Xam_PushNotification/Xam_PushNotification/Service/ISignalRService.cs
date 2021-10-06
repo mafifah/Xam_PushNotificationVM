@@ -10,6 +10,6 @@ namespace Xam_PushNotification.Service
         Task Connect();
         Task Disconnect();
         void ReceiveMessage(Action<ClientMessage> GetMessage = null, bool isBroadcast = false);
-        Task SendMessage(string title, string method, string namaHalaman, bool isBroadcast, object id = null);
+        Task SendMessage(string title, string jenisPerubahan, string namaHalaman, bool isBroadcast, object id = null);
     }
 }
