@@ -80,11 +80,11 @@ namespace Xam_PushNotification.Service
         {
             if (isBroadcast)
             {
-                hubConnection.On("BroadcastMessage", GetMessage);
+                hubConnection.On("KirimPesanBroadcast", GetMessage);
             }
             else
             {
-                hubConnection.On("SendMessage", GetMessage);
+                hubConnection.On("KirimPesan", GetMessage);
             }
         }
     }
