@@ -78,9 +78,9 @@ namespace Xam_PushNotification.ViewModel
         //Method untuk menangani perubahan data
         private async void OnDataBerubah(ClientMessage clientMessage)
         {
+            var ConvertedId = clientMessage.Id_PrimaryKey.ToString();
             if (clientMessage.JenisPesan == "insert" || clientMessage.JenisPesan == "update")
             {
-                var ConvertedId = clientMessage.Id_PrimaryKey.ToString();
                 var data = await karyawanService.GetKaryawanById(Convert.ToInt64(ConvertedId));
                 var data2 = karyawanService.ListKaryawan.Where(i => i.IdKaryawan == data.IdKaryawan).FirstOrDefault();
                 if (clientMessage.JenisPesan == "update")
@@ -94,7 +94,7 @@ namespace Xam_PushNotification.ViewModel
             }
             else if (clientMessage.JenisPesan == "delete")
             {
-                var item = _listKaryawan.Where(i => i.IdKaryawan == (long)clientMessage.Id_PrimaryKey).FirstOrDefault();
+                var item = _listKaryawan.Where(i => i.IdKaryawan == Convert.ToInt64(ConvertedId)).FirstOrDefault();
                 karyawanService.ListKaryawan.Remove(item);
                 await Application.Current.MainPage.Navigation.PopAsync();
             }
